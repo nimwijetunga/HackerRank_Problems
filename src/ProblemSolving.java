@@ -1,6 +1,7 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,14 @@ import java.util.TreeMap;
 public class ProblemSolving {
 	
 	public static void main (String[] args) {
-		int i = alternatingCharacters("ABAB");
+		int i = maxMin(3, new int [] {
+				10,
+				100,
+				300,
+				200,
+				1000,
+				20,
+				30});
 		System.out.println(i);
 	}
 	
@@ -455,6 +463,39 @@ public class ProblemSolving {
 	        return str_len - password.length();
 	        
 
+	    }
+	    
+	 // Complete the maxMin function below.
+	    static int maxMin(int k, int[] arr) {
+	    	Arrays.sort(arr);
+	    	double score = Double.POSITIVE_INFINITY;
+	    	for(int i = 0; i < arr.length; i++) {
+	    		boolean check = true;
+	    		ArrayList<Integer> tmp = new ArrayList<Integer>();
+	    		int lower = i, upper = (k + i) -1;
+	    		if(upper >= arr.length)break;
+	    		double max = arr[upper], min = arr[lower];
+		    	if(check && (max - min) < score)score = (max-min);
+	    	}
+	    	if(score == Double.POSITIVE_INFINITY) return -1;
+	    	return ((int) score);
+	    }
+	    
+	    
+	 // Complete the twoArrays function below.
+	    static String twoArrays(int k, int[] A, int[] B) {
+	    	Arrays.sort(A);
+	    	Arrays.sort(B);
+	    	int [] C = new int[B.length];
+	    	int index = 0;
+	    	for(int i = B.length - 1; i >= 0; i--) {
+	    		C[index] = B[i];
+	    		index++;
+	    	}
+	    	for(int i = 0; i < A.length; i++) {
+	    		if(A[i] + C[i] < k)return "NO";
+	    	}
+	    	return "YES";
 	    }
 	    
 	    
