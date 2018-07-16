@@ -10,15 +10,10 @@ import java.util.TreeMap;
 public class ProblemSolving {
 	
 	public static void main (String[] args) {
-		int i = maxMin(3, new int [] {
-				10,
-				100,
-				300,
-				200,
-				1000,
-				20,
-				30});
-		System.out.println(i);
+		int [] i = jimOrders(new int [][] {{8,3}, {5,6}, {6,2}, {2,3}, {4,3}});
+		for(int j : i) {
+			System.out.print(j + " ");
+		}
 	}
 	
 
@@ -479,6 +474,67 @@ public class ProblemSolving {
 	    	}
 	    	if(score == Double.POSITIVE_INFINITY) return -1;
 	    	return ((int) score);
+	    }
+	    
+	 // Complete the toys function below.
+	    static int toys(int[] w) {
+	    	Arrays.sort(w);
+	    	int max_w = w[0] + 4, cont = 0;
+	    	for(int i = 0; i < w.length; i++) {
+	    		if(w[i] > max_w) {
+	    			cont++;
+	    			max_w = w[i] + 4;
+	    		}
+	    	}
+	    	cont++;
+	    	return cont;
+	    }
+	    
+	 // Complete the jimOrders function below.
+	    static int[] jimOrders(int[][] orders) {
+	    	BST order_tree = new BST();
+	    	for(int i = 0; i < orders.length; i++) {
+	    		int total_serve_time = orders[i][0] + orders[i][1];
+	    		int cust = (i + 1);
+	    		order_tree.put(total_serve_time, cust);
+	    	}
+	    	
+	    	ArrayList<Integer> serve_order = order_tree.get_serve_order();
+	    	
+	    	int [] order = new int [serve_order.size()];
+	    	for(int i = 0; i < serve_order.size(); i++) {
+	    		order[i] = serve_order.get(i);
+	    	}
+	    	
+	    	return order;
+
+	    }
+	    
+	 // Complete the maximumToys function below.
+	    static int maximumToys(int[] prices, int k) {
+	    	Arrays.sort(prices);
+	    	int cur_price = 0, count = 0;
+	    	for(int i = 0; i < prices.length; i++) {
+	    		if(cur_price + prices[i] > k)break;
+	    		else count++;
+	    		cur_price += prices[i];
+	    	}
+	    	return count;
+	    }
+	    
+	 // Complete the getMinimumCost function below.
+	    static int getMinimumCost(int k, int[] c) {
+	    	Arrays.sort(c);
+	    	int amount = 0, cost = 0;
+	    	int count = 1;
+	    	
+	    	for(int i = c.length - 1; i >= 0; i--) {
+	    		cost += (c[i] * (amount + 1));
+	    		if(count % k == 0)amount++;
+	    		count++;
+	    	}
+	    	
+	    	return cost;
 	    }
 	    
 	    
