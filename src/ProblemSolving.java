@@ -1,22 +1,16 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class ProblemSolving {
 	
 	public static void main (String[] args) {
-		int [] i = jimOrders(new int [][] {{8,3}, {5,6}, {6,2}, {2,3}, {4,3}});
-		for(int j : i) {
-			System.out.print(j + " ");
-		}
+		insertionSort2(6, new int[] {1,4,3,5,6,2});
 	}
 	
-
 	
 	 static int[] climbingLeaderboard(int[] scores, int[] alice) {
 	        int count = 1;
@@ -507,6 +501,128 @@ public class ProblemSolving {
 	    	}
 	    	
 	    	return order;
+
+	    }
+	    
+	 // Complete the insertionSort1 function below.
+	    static void insertionSort1(int n, int[] arr) {
+
+	    	int num = arr[n - 1];
+	    	for(int i = arr.length - 2; i >= 0; i--) {
+	    		if(arr[i] > num) {
+	    			arr[i + 1] = arr[i];
+	    		}else {
+	    			arr[i + 1] = num;
+	    			printArr(arr);
+	    			break;
+	    		}
+	    		printArr(arr);
+	    	}
+	    	if(arr[0] > num) {
+	    		int temp = arr[0];
+	    		arr[0] = num;
+	    		arr[1] = temp;
+	    		printArr(arr);
+	    	}
+
+	    }
+	    
+	    /*
+	     * Complete the twosCompliment function below.
+	     */
+	    static long twosCompliment(long a, long b) {
+	    	long count = 0;
+	    	for(long l = a; l <=b ; l++) {
+	    		long cur = Math.abs(l);
+    			String cur_str = Long.toBinaryString( cur | 0x100000000L ).substring(1);
+	    		if(l < 0) {
+	    			count += num_ones_twos_comp(cur_str);
+	    		}else {
+	    			count += num_ones(cur_str);
+	    		}
+	    	}
+	    	return count;
+
+	    }
+	    
+	    static int num_ones_twos_comp(String s) {
+	    	int count = 0;
+	    	boolean first_one = false;
+	    	for(int i = s.length() - 1; i >= 0; i--) {
+	    		if(!first_one && s.charAt(i) == '1') {
+	    			count++;
+	    			first_one = true;
+	    		}else if(first_one && s.charAt(i) == '0') {
+	    			count++;
+	    		}
+	    	}
+	    	return count;
+	    }
+	    
+	    static int num_ones(String s) {
+	    	int count = 0;
+
+	    	for(int i = s.length() - 1; i >= 0; i--) {
+	    		if(s.charAt(i) == '1')count++;
+	    	}
+	    	return count;
+	    }
+	    
+	    static void printArr(int [] arr) {
+	    	for(int i : arr) {
+	    		System.out.print(i + " ");
+	    	}
+	    	System.out.println("");
+	    }
+	    
+	    
+	 // Complete the lonelyinteger function below.
+	    static int lonelyinteger(int[] a) {
+	    	HashMap<Integer, Integer> mp = new HashMap<Integer, Integer>();
+	    	for(int i = 0; i < a.length; i++) {
+	    		int cur = a[i];
+	    		if(mp.containsKey(cur)) {
+	    			mp.remove(cur);
+	    		}else {
+	    			mp.put(cur, 1);
+	    		}
+	    	}
+	    	for(int i : mp.keySet()) {
+	    		return i;
+	    	}
+	    	return 0;
+	    }
+	    
+	    
+	    static int introTutorial(int V, int [] arr) {
+	    	int high = arr.length - 1, low = 0, mid = (low + high) / 2;
+	    	while(high >= low) {
+	    		if(arr[mid] == V) {
+	    			return mid;
+	    		}
+	    		else if(arr[mid] < V) {
+	    			low = mid + 1;
+	    		}
+	    		else if(arr[mid] > V) {
+	    			high = mid - 1;
+	    		}
+	    		mid = (high + low) / 2;
+	    	}
+	    	return -1;
+	    }
+	    
+	 // Complete the insertionSort2 function below.
+	    static void insertionSort2(int n, int[] arr) {
+	    	for(int i = 1; i < arr.length; i++) {
+	    		for(int j = i; j >= 1 && arr[j] < arr[j - 1]; j--) {
+	    			if(arr[j] < arr[j - 1]) {
+	    				int temp = arr[j];
+	    				arr[j] = arr[j - 1];
+	    				arr[j - 1] = temp;
+	    			}
+	    		}
+	    		printArr(arr);
+	    	}
 
 	    }
 	    

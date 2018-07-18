@@ -63,7 +63,4 @@ public class BST {
 			in_order(root.right);
 		}
 	}
-	
-	
-
 }
