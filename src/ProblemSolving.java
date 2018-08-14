@@ -1,16 +1,18 @@
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 public class ProblemSolving {
 	
 	public static void main (String[] args) {
-		insertionSort2(6, new int[] {1,4,3,5,6,2});
+		waiter(new int [] {3,3,4,4,9}, 2);
 	}
-	
 	
 	 static int[] climbingLeaderboard(int[] scores, int[] alice) {
 	        int count = 1;
@@ -575,6 +577,47 @@ public class ProblemSolving {
 	    	System.out.println("");
 	    }
 	    
+	    static int[] left_rot(int [] a, int d) {
+	    	HashMap<Integer, Integer> mp = new HashMap<Integer, Integer>();
+	    	
+	    	for(int i = 0; i < a.length; i++) {
+	    		int new_index = i - d;
+	    		if(new_index < 0) {
+	    			new_index = a.length + new_index;
+	    		}
+	    		mp.put(new_index, a[i]);
+	    	}
+	    	
+	    	int [] new_arr = new int[a.length];
+	    	
+	    	for(int i : mp.keySet()) {
+	    		new_arr[i] = mp.get(i);
+	    	}
+	    	
+	    	for(int i : new_arr) System.out.print(i + " ");
+	    	
+	    	return new_arr;
+	    }
+	    
+	 // Complete the isBalanced function below.
+	    static String isBalanced(String s) {
+	    	for(int i = 0; i < s.length(); i++) {
+	    		if((s.length() - 1 - i) < i) break;
+	    		char c1 = s.charAt(i);
+	    		char c2 = s.charAt(s.length() - 1 - i);
+	    		if(c1 == '(') {
+	    			if (c2 != ')') return "NO";
+	    		}else if(c1 == '[') {
+	    			if (c2 != ']') return "NO";
+	    		}else if(c1 == '{') {
+	    			if (c2 != '}') return "NO";
+	    		}else {
+	    			return "NO";
+	    		}
+	    	}
+	    	return "YES";
+	    }
+	    
 	    
 	 // Complete the lonelyinteger function below.
 	    static int lonelyinteger(int[] a) {
@@ -651,6 +694,58 @@ public class ProblemSolving {
 	    	}
 	    	
 	    	return cost;
+	    }
+	    
+	    /*
+	     * Complete the waiter function below.
+	     */
+	    static void waiter(int[] number, int q) {
+	        ArrayList<Integer> a_i = new ArrayList<Integer>();
+	        for(int i : number)a_i.add(i);
+	        HashMap<Integer, ArrayList<Integer>> b_i = new HashMap<Integer, ArrayList<Integer>>();
+	    	List<Integer> primes = sieveOfEratosthenes(q + 1);
+	    	int count = 0;
+	    	for(int p : primes) {
+	    		ArrayList<Integer> b_cur = new ArrayList<Integer>();
+	    		ArrayList<Integer> a_cur = new ArrayList<Integer>();
+	    		for(int i = a_i.size() - 1; i >= 0; i--) {
+	    			int cur = a_i.get(i);
+	    			if(cur% p == 0) b_cur.add(cur);
+	    			else a_cur.add(cur);
+	    		}
+	    		b_i.put(++count, new ArrayList<>(b_cur));
+	    		a_i = a_cur;
+	    		b_cur.clear();
+	    	}
+	    	
+	    	for(ArrayList<Integer> cur: b_i.values()) {
+	    		for(int i = cur.size() - 1; i >= 0; i--) {
+	    			System.out.println(cur.get(i));
+	    		}
+	    	}
+	    	for(int i = a_i.size() - 1; i >= 0; i--) {
+    			System.out.println(a_i.get(i));
+    		}
+	    	
+	    }
+	    
+	    public static List<Integer> sieveOfEratosthenes(int n) {
+	        boolean prime[] = new boolean[n + 1];
+	        Arrays.fill(prime, true);
+	        for (int p = 2; p * p <= n; p++) {
+	            if (prime[p]) {
+	                for (int i = p * 2; i <= n; i += p) {
+	                    prime[i] = false;
+	                }
+	            }
+	        }
+	        List<Integer> primeNumbers = new LinkedList<>();
+	        for (int i = 2; i <= n; i++) {
+	            if (prime[i]) {
+	                primeNumbers.add(i);
+	            }
+	        }
+	        return primeNumbers;
 	    }
 	    
 	    
