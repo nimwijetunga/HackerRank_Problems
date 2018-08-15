@@ -11,8 +11,49 @@ import java.util.TreeMap;
 public class ProblemSolving {
 	
 	public static void main (String[] args) {
-		waiter(new int [] {3,3,4,4,9}, 2);
+		String s = isValid("aabbcd");
+		System.out.println(s);
 	}
+	
+	// Complete the isValid function below.
+    static String isValid(String s) {
+    	HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+    	for(char c : s.toCharArray()) {
+    		if(map.containsKey(c)) {
+    			map.put(c, map.get(c) + 1);
+    		}else {
+    			map.put(c, 1);
+    		}
+    	}
+    	
+    	
+    	HashMap<Integer, Integer> occur_map = new HashMap<Integer, Integer>();
+    	for(int i : map.values()) {
+    		if(occur_map.containsKey(i)) {
+    			occur_map.put(i, occur_map.get(i) + 1);
+    		}else {
+    			occur_map.put(i, 1);
+    		}
+    	}
+    	
+    	int size = occur_map.size();
+    	if(size == 1) return "YES";
+    	else if (size > 2) return "NO";
+    	
+    	ArrayList<Integer> keys = new ArrayList<Integer>();
+    	ArrayList<Integer> values = new ArrayList<Integer>();
+
+    	for(int i : occur_map.keySet()) {
+    		keys.add(i);
+    		values.add(occur_map.get(i));
+    	}
+    	
+    	if((keys.get(0) == 1 && values.get(0) == 1) || (keys.get(1) == 1 && values.get(1) == 1)) return "YES";
+    	if(Math.abs(keys.get(0) - keys.get(1)) != 1) return "NO";
+    	if(values.get(0) != 1 && values.get(1) !=  1) return "NO";
+
+    	return "YES";
+    }
 	
 	 static int[] climbingLeaderboard(int[] scores, int[] alice) {
 	        int count = 1;
@@ -703,7 +744,7 @@ public class ProblemSolving {
 	        ArrayList<Integer> a_i = new ArrayList<Integer>();
 	        for(int i : number)a_i.add(i);
 	        HashMap<Integer, ArrayList<Integer>> b_i = new HashMap<Integer, ArrayList<Integer>>();
-	    	List<Integer> primes = sieveOfEratosthenes(q + 1);
+	    	int [] primes = firstNPrimes(q);
 	    	int count = 0;
 	    	for(int p : primes) {
 	    		ArrayList<Integer> b_cur = new ArrayList<Integer>();
@@ -729,24 +770,26 @@ public class ProblemSolving {
 	    	
 	    }
 	    
-	    public static List<Integer> sieveOfEratosthenes(int n) {
-	        boolean prime[] = new boolean[n + 1];
-	        Arrays.fill(prime, true);
-	        for (int p = 2; p * p <= n; p++) {
-	            if (prime[p]) {
-	                for (int i = p * 2; i <= n; i += p) {
-	                    prime[i] = false;
-	                }
+	    public static int[] firstNPrimes (int n){
+	        int[] primes = new int[n];
+	        int ncounter = 0;
+	        int isPrime = 2;
+	        while( ncounter < n){
+	          boolean prime = true;
+	          for (int j=2; j<isPrime; j++){
+	            if (isPrime%j ==0){
+	              prime = false;
+	              break;
 	            }
-	        }
-	        List<Integer> primeNumbers = new LinkedList<>();
-	        for (int i = 2; i <= n; i++) {
-	            if (prime[i]) {
-	                primeNumbers.add(i);
-	            }
-	        }
-	        return primeNumbers;
-	    }
+	          }
+	          if (prime){
+	            primes[ncounter] = isPrime;
+	            ncounter++;
+	          } 
+	          isPrime++;
+	         }
+	        return primes;
+	      }
 	    
 	    
 	 // Complete the twoArrays function below.
